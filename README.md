@@ -28,16 +28,11 @@ Jeder Push auf `main` baut die App, führt die Tests aus und veröffentlicht sie
 
 **https://robin250903.github.io/gym-app/**
 
-Einmalig einrichten:
+Einmalig eingerichtet: Unter **Settings → Pages → Build and deployment → Source** ist **„GitHub Actions“**
+gewählt. Den Workflow kann man unter **Actions** auch manuell starten.
 
-1. Für ein **privates** Repo braucht GitHub Pages **GitHub Pro**. Für Studierende ist es über das
-   [GitHub Student Developer Pack](https://education.github.com/pack) kostenlos.
-2. Im Repo unter **Settings → Pages → Build and deployment → Source** die Option **„GitHub Actions“** wählen.
-3. Auf `main` pushen (oder den Workflow unter **Actions** manuell starten).
-
-> Hinweis: Auch bei einem privaten Repo ist die Pages-Seite öffentlich erreichbar. Nur der Quellcode bleibt
-> privat. Deine Trainingsdaten sind davon nicht betroffen, weil sie nur auf dem iPhone liegen. Der Trainingsplan
-> aus den Seed-Daten steckt allerdings im ausgelieferten JavaScript.
+> Das Repo ist öffentlich, damit Pages ohne GitHub Pro funktioniert. Deine Trainingsdaten sind davon nicht
+> betroffen, weil sie nur auf dem iPhone liegen. Öffentlich sind nur der Code und der Seed-Trainingsplan.
 
 Alternative: **Vercel**. Projekt importieren, Build-Befehl `npm run build`, Output `dist`. Dafür muss in
 `vite.config.ts` die Konstante `BASE` auf `'/'` stehen.
