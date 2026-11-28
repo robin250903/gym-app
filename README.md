@@ -47,8 +47,12 @@ Updates: Wenn eine neue Version deployt ist, holt sich die App sie beim nächste
 Manchmal braucht es zweimal Öffnen.
 
 Hinweise:
-- Der Timer-Ton kommt nur, wenn das iPhone nicht stumm geschaltet ist. Das optische Signal (blinkende Leiste)
-  gibt es immer. Musik aus anderen Apps läuft weiter.
+- **Ton im Hintergrund** (Einstellungen → App, standardmäßig an): Während der Pause läuft eine stille Audiospur,
+  die am Ende piept. So kommt der Ton auch, wenn du in einer anderen App bist oder das iPhone gesperrt ist.
+  Auf dem Sperrbildschirm steht dann „Pause · Übung“. Nachteil: iOS pausiert währenddessen Musik aus anderen
+  Apps. Mit „Hintergrund testen“ kannst du es ausprobieren: tippen, iPhone sperren, nach 10 s piept es.
+- Ist der Hintergrund-Ton aus, kommt der Ton nur bei geöffneter App und nicht stumm geschaltetem iPhone, dafür
+  läuft Musik aus anderen Apps weiter. Das optische Signal (blinkende Leiste) gibt es immer.
 - Der Bildschirm bleibt während eines laufenden Trainings an (Screen Wake Lock, ab iOS 18.4 in Home-Screen-Apps).
 
 ## Backup
@@ -70,7 +74,7 @@ src/
   db/          Datenmodell (types.ts), Dexie-DB, Seed-Daten, Schreibzugriffe (repo.ts), Backup, Live-Hooks
   logic/       Reine Logik ohne UI: progression.ts (doppelte Progression), records.ts (1RM, Rekorde),
                history.ts (Verlauf, Statistik), plan.ts (Training anlegen), weights.ts (Gewichtsschritte)
-  lib/         Formatierung, Pausentimer (Timestamp-basiert), Ton, Wake Lock, Hash-Router
+  lib/         Formatierung, Pausentimer (Timestamp-basiert), Ton (auch im Hintergrund), Wake Lock, Hash-Router
   components/  Wiederverwendbare UI-Bausteine (Übungskarte, Timer-Leiste, Zahlenfeld, Diagramm …)
   pages/       Screens: Training, Trainingsansicht, Zusammenfassung, Verlauf, Fortschritt, Einstellungen
 ```

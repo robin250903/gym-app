@@ -4,17 +4,25 @@
 
 let ctx: AudioContext | null = null;
 
+/**
+ * Audio-Session von Safari (ab iOS 17): 'ambient' mischt sich mit Musik anderer Apps, verstummt aber
+ * im Hintergrund. 'playback' läuft im Hintergrund weiter, pausiert dafür andere Musik.
+ */
+export function setAudioSessionType(type: 'ambient' | 'playback'): void {
+  try {
+    const session = (navigator as unknown as { audioSession?: { type: string } }).audioSession;
+    if (session && session.type !== type) session.type = type;
+  } catch {
+    /* ignorieren */
+  }
+}
+
 function getCtx(): AudioContext | null {
   if (ctx) return ctx;
   const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AC) return null;
-  try {
-    // Musik anderer Apps (z. B. Spotify) soll weiterlaufen
-    const session = (navigator as unknown as { audioSession?: { type: string } }).audioSession;
-    if (session) session.type = 'ambient';
-  } catch {
-    /* ignorieren */
-  }
+  // Musik anderer Apps (z. B. Spotify) soll weiterlaufen
+  setAudioSessionType('ambient');
   ctx = new AC();
   return ctx;
 }

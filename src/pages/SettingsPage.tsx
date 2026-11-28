@@ -6,6 +6,7 @@ import { useDays, useExercises, useRestDayNotes, useSessions } from '../db/hooks
 import { saveDay, saveExercise, setRestDayNotes } from '../db/repo';
 import type { WorkoutDay } from '../db/types';
 import { uid, WEEKDAYS_LONG, WEEKDAYS_SHORT, WEEK_ORDER } from '../lib/format';
+import { isBackgroundSoundEnabled, setBackgroundSoundEnabled, testBackgroundAlarm } from '../lib/backgroundAlarm';
 import { navigate } from '../lib/router';
 import { playAlarm, unlockAudio } from '../lib/sound';
 import { newExercise } from './ExerciseEditor';
@@ -18,6 +19,7 @@ export function SettingsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [persisted, setPersisted] = useState<boolean | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [bgSound, setBgSound] = useState(isBackgroundSoundEnabled);
 
   useEffect(() => {
     void requestPersistentStorage().then(setPersisted);
@@ -191,6 +193,32 @@ export function SettingsPage() {
           Timer-Ton testen 🔔
         </button>
         <p className="muted small">Ist das iPhone stumm geschaltet, bleibt der Ton aus – das Timer-Ende blinkt dann nur.</p>
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={bgSound}
+            onChange={(e) => {
+              setBgSound(e.target.checked);
+              setBackgroundSoundEnabled(e.target.checked);
+            }}
+          />
+          Ton auch im Hintergrund
+        </label>
+        <p className="muted small">
+          Während der Pause läuft eine stille Audiospur. So kommt der Ton auch, wenn du in einer anderen App bist oder
+          der Bildschirm gesperrt ist (meist auch bei stumm geschaltetem iPhone). Nachteil: iOS pausiert dabei Musik aus
+          anderen Apps wie Spotify.
+        </p>
+        {bgSound && (
+          <button
+            className="btn block"
+            onClick={() => {
+              if (!testBackgroundAlarm(10)) alert('Es läuft gerade ein Pausentimer.');
+            }}
+          >
+            Hintergrund testen: Ton in 10 s 🔒
+          </button>
+        )}
         <p className="muted small">Version {__APP_VERSION__}</p>
       </section>
     </div>
