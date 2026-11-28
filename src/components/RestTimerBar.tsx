@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { backgroundAlarmCovers } from '../lib/backgroundAlarm';
 import { fmtClock } from '../lib/format';
 import { remainingSec, restTimer, useRestTimer } from '../lib/restTimer';
 import { playAlarm } from '../lib/sound';
@@ -27,7 +28,8 @@ export function RestTimerBar() {
     if (!timer || !finished || timer.alerted) return;
     if (document.visibilityState !== 'visible') return;
     // Ton nur, wenn das Ende nicht schon lange her ist (z. B. App war im Hintergrund)
-    if (now - timer.endAt < 60_000) playAlarm();
+    // und die Hintergrund-Audiodatei nicht schon selbst piept.
+    if (now - timer.endAt < 60_000 && !backgroundAlarmCovers(timer.endAt)) playAlarm();
     restTimer.markAlerted();
   }, [finished, timer, now]);
 
